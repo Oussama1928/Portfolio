@@ -1,4 +1,5 @@
 .fullpage-container {
+  width: 100%;
   height: 100vh;
   overflow: hidden;
   position: relative;
@@ -6,7 +7,10 @@
 
 .fullpage-section {
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 0;
   left: 0;
@@ -14,13 +18,13 @@
 
 .fullpage-dots {
   position: fixed;
-  right: 20px;
+  right: 2rem;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  z-index: 50;
+  gap: 1rem;
+  z-index: 1000;
 }
 
 .fullpage-dot {
@@ -29,9 +33,26 @@
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.fullpage-dot:hover {
+  transform: scale(1.3);
 }
 
 .fullpage-dot.active {
   transform: scale(1.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .fullpage-dots {
+    right: 1rem;
+  }
+  
+  .fullpage-dot {
+    width: 10px;
+    height: 10px;
+  }
 }
