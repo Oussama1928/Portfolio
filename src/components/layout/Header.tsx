@@ -70,7 +70,7 @@ export default function Header() {
 
             <GradientButton
               size="md"
-              glowEffect
+              glowEffect={false}
               gradientColors={["#d33c87ff", "#d33c87ff"]}
               variant ="ghost"
               className="bg-white text-black hover:bg-white/90"
