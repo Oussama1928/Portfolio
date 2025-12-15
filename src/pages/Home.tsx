@@ -38,7 +38,7 @@ export default function Home() {
         {/* Texte */}
         <div className="max-w-xl flex flex-col gap-4">
           <h1 className="text-6xl md:text-7xl font-bold font-playfair">
-            Hi, I’m <span className="text-pink-400">Oussama</span>
+            Hi, I’m Oussama
           </h1>
           <h2 className="text-2xl md:text-3xl font-playfair text-white/80">
             Welcome to my portfolio
