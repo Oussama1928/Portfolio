@@ -1,20 +1,7 @@
 import FloatingLines from "@/components/background/FloatingLines";
 import RotatingText from "@/components/ui/RotatingText"; // Assure-toi que le path correspond
-import { useRef } from "react";
 
 export default function Home() {
-  const rotatingTextRef = useRef<any>(null);
-
-  const qualities = [
-    "Clean Code",
-    "Scalable Architecture",
-    "Modern Tech Stack",
-    "Full-Stack Engineering",
-    "UI/UX Excellence",
-    "High Performance",
-    "Team Player",
-    "Problem Solver",
-  ];
 
   return (
     <section className="relative w-full min-h-screen overflow-hidden font-sans">
