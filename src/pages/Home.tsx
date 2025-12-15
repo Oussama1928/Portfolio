@@ -1,33 +1,103 @@
 import FloatingLines from "@/components/background/FloatingLines";
+import RotatingText from "@/components/ui/RotatingText"; // Assure-toi que le path correspond
+import { useRef } from "react";
 
 export default function Home() {
+  const rotatingTextRef = useRef<any>(null);
+
+  const qualities = [
+    "Clean Code",
+    "Scalable Architecture",
+    "Modern Tech Stack",
+    "Full-Stack Engineering",
+    "UI/UX Excellence",
+    "High Performance",
+    "Team Player",
+    "Problem Solver",
+  ];
+
   return (
-    <section className="relative w-full min-h-screen overflow-hidden">
+    <section className="relative w-full min-h-screen overflow-hidden font-sans">
       
       {/* BACKGROUND */}
       <div className="absolute inset-0 -z-10">
         <FloatingLines
-        enabledWaves={['top', 'middle', 'bottom']}
-        lineCount={[5, 7, 10]}       // moins de lignes
-        lineDistance={[10, 12, 15]}  // plus espacées
-        bendRadius={5.0}
-        bendStrength={-0.2}          // moins de distorsion
-        interactive={true}
-        parallax={true}
-        linesGradient={['#E947F5', '#5B8AFF']} // couleurs plus douces
+          enabledWaves={['top', 'middle', 'bottom']}
+          lineCount={[10, 15, 20]}
+          lineDistance={[8, 6, 4]}
+          bendRadius={5.0}
+          bendStrength={-0.5}
+          interactive={true}
+          parallax={true}
+          linesGradient={['#E947F5', '#2F4BA2']}
         />
       </div>
 
       {/* CONTENT */}
-      <div className="relative z-10 px-10 pt-32 text-white">
-        <h1 className="text-6xl font-bold">
-          Hi, I’m <span className="text-pink-400">Your Name</span>
-        </h1>
+      <div className="relative z-10 px-10 pt-32 text-white flex items-start gap-55">
+        {/* Texte */}
+        <div className="max-w-xl flex flex-col gap-4">
+          <h1 className="text-6xl md:text-7xl font-bold font-playfair">
+            Hi, I’m <span className="text-pink-400">Oussama</span>
+          </h1>
+          <h2 className="text-2xl md:text-3xl font-playfair text-white/80">
+            Welcome to my portfolio
+          </h2>
+        </div>
 
-        <p className="mt-6 max-w-xl text-lg text-white/80">
-          Full-stack developer crafting immersive web experiences.
-        </p>
+        {/* Photo avec hover */}
+        <div className="mt-10 w-96 h-96 md:w-[28rem] md:h-[28rem] relative group">
+          <img
+            src="/images/MyPhoto.jpg"
+            alt="Oussama"
+            className="w-full h-full object-cover rounded-3xl transition-all duration-500 group-hover:blur-sm"
+          />
+          <div className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/50 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+            <p className="text-white text-center px-6 font-playfair text-lg md:text-xl">
+              Hi! I’m Oussama, a full-stack engineer passionate about building modern, performant and scalable applications.
+            </p>
+          </div>
+        </div>
       </div>
+
+      {/* Rotating adjectives */}
+    <div className="absolute bottom-40 left-4 md:left-8 lg:left-12 flex flex-wrap items-center">
+    {/* Texte statique avant */}
+    <span className="text-2xl md:text-3xl lg:text-4xl font-sans font-semibold text-white mr-2">
+        I Design and Build
+    </span>
+
+    {/* Adjectif dynamique */}
+    <RotatingText
+        texts={[
+        "Scalable",
+        "Resilient",
+        "Robust",
+        "Performant",
+        "Clean",
+        "Reliable",
+        "Modular",
+        "Modern",
+        "Innovative",
+        ]}
+        mainClassName="text-2xl md:text-3xl lg:text-4xl font-playfair font-semibold italic text-pink-400"
+        staggerFrom="first"
+        initial={{ y: "100%", opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: "-120%", opacity: 0 }}
+        staggerDuration={0.05}
+        splitLevelClassName="overflow-hidden"
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        rotationInterval={2000}
+        loop
+        auto
+    />
+
+    {/* Texte statique après */}
+    <span className="text-2xl md:text-3xl lg:text-4xl font-sans font-semibold text-white ml-2">
+        Systems
+    </span>
+    </div>
     </section>
   );
 }
