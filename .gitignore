@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 public/images/
+back/.env
+back/venv/
+back/__pycache__/
+.env.local

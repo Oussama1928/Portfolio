@@ -1,30 +1,62 @@
 import { useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
-  const [status, setStatus] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("Sending...");
+
+    setStatus("sending");
+    setErrorMessage(null);
+
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(`${API_URL}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      if (res.ok) setStatus("Message sent! I will reply soon 😊");
-      else throw new Error("Failed to send");
-    } catch (err) {
-      setStatus("Something went wrong 🙁");
+
+      let data: any = null;
+      try {
+        data = await res.json();
+      } catch {
+        // backend did not return JSON
+      }
+
+      if (!res.ok) {
+        throw new Error(
+          typeof data?.detail === "string"
+            ? data.detail
+            : "Server error while sending message"
+        );
+      }
+
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+
+    } catch (err: any) {
+      setStatus("error");
+
+      if (typeof err?.message === "string") {
+        setErrorMessage(err.message);
+      } else {
+        setErrorMessage("Unable to send message. Please try again later.");
+      }
     }
   };
 
@@ -48,7 +80,7 @@ export default function Contact() {
           <input
             type="text"
             name="name"
-            className="w-full p-3 rounded-lg bg-white text-gray-900 placeholder-gray-400 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cyan-400"
             placeholder="Your name"
             value={formData.name}
             onChange={handleChange}
@@ -60,7 +92,7 @@ export default function Contact() {
           <input
             type="email"
             name="email"
-            className="w-full p-3 rounded-lg bg-white text-gray-900 placeholder-gray-400 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cyan-400"
             placeholder="your.email@example.com"
             value={formData.email}
             onChange={handleChange}
@@ -72,7 +104,7 @@ export default function Contact() {
           <textarea
             name="message"
             rows={6}
-            className="w-full p-3 rounded-lg bg-white text-gray-900 placeholder-gray-400 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-cyan-400"
             placeholder="Write your message here"
             value={formData.message}
             onChange={handleChange}
@@ -82,13 +114,23 @@ export default function Contact() {
           {/* Submit */}
           <button
             type="submit"
-            className="mt-4 w-full py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition"
+            disabled={status === "sending"}
+            className="mt-4 w-full py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition disabled:opacity-60"
           >
-            Send Message
+            {status === "sending" ? "Sending..." : "Send Message"}
           </button>
 
-          {status && (
-            <p className="text-center text-sm text-gray-600 mt-2">{status}</p>
+          {/* Status messages */}
+          {status === "success" && (
+            <p className="text-center text-sm text-green-600 mt-2">
+              Message sent! I will reply soon 😊
+            </p>
+          )}
+
+          {status === "error" && errorMessage && (
+            <p className="text-center text-sm text-red-600 mt-2">
+              {errorMessage}
+            </p>
           )}
         </div>
       </form>
