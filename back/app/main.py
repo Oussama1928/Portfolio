@@ -16,6 +16,7 @@ if not all([EMAIL_ADDRESS, EMAIL_PASSWORD, MAIL_TO]):
     raise RuntimeError("Missing environment variables")
 
 app = FastAPI()
+print("🔥 FastAPI started")  # <- Vérifie que le serveur démarre
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,6 +32,8 @@ class ContactForm(BaseModel):
 
 @app.post("/contact")
 async def send_contact_message(form: ContactForm):
+    print("📩 /contact HIT")
+    print("DATA =", form)
     try:
         msg = EmailMessage()
         msg["Subject"] = f"[Portfolio] Message from {form.name}"

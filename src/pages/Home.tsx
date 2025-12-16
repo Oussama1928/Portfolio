@@ -44,6 +44,16 @@ export default function Home() {
               Hi! I’m Oussama, a full-stack engineer passionate about building modern, performant and scalable applications.
             </p>
           </div>
+
+            <p className="mt-2 text-center text-base italic font-playfair text-white">
+              <a
+                href="/cv/CV Oussama BEN SLIMA - Fullstack Engineer.pdf"
+                download="CV Oussama BEN SLIMA - Fullstack Engineer.pdf"
+                className="underline transition cursor-pointer"
+              >
+                Download my CV
+              </a>
+            </p>
         </div>
       </div>
 

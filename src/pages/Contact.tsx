@@ -18,47 +18,54 @@ export default function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setStatus("sending");
     setErrorMessage(null);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s max
+
     try {
-      const res = await fetch(`${API_URL}/contact`, {
+        const res = await fetch(`${API_URL}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-      });
+        signal: controller.signal,
+        });
 
-      let data: any = null;
-      try {
+        let data: any = null;
+        try {
         data = await res.json();
-      } catch {
-        // backend did not return JSON
-      }
+        } catch {
+        // backend returned non-json
+        }
 
-      if (!res.ok) {
+        if (!res.ok) {
         throw new Error(
-          typeof data?.detail === "string"
+            typeof data?.detail === "string"
             ? data.detail
-            : "Server error while sending message"
+            : `Server error (${res.status})`
         );
-      }
+        }
 
-      setStatus("success");
-      setFormData({ name: "", email: "", message: "" });
+        setStatus("success");
+        setFormData({ name: "", email: "", message: "" });
 
     } catch (err: any) {
-      setStatus("error");
-
-      if (typeof err?.message === "string") {
+        if (err.name === "AbortError") {
+        setErrorMessage("Server timeout. Please try again.");
+        } else if (typeof err?.message === "string") {
         setErrorMessage(err.message);
-      } else {
-        setErrorMessage("Unable to send message. Please try again later.");
-      }
+        } else {
+        setErrorMessage("Unexpected error. Please try again.");
+        }
+        setStatus("error");
+    } finally {
+        clearTimeout(timeoutId);
     }
-  };
+    };
 
   return (
     <section className="relative w-full min-h-screen bg-white text-gray-900 flex flex-col items-center justify-center px-6 md:px-12 py-24">
