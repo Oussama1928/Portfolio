@@ -30,6 +30,10 @@ class ContactForm(BaseModel):
     email: EmailStr
     message: str
 
+@app.get("/")
+def root():
+    return {"status": "ok"}
+
 @app.post("/contact")
 async def send_contact_message(form: ContactForm):
     try:
