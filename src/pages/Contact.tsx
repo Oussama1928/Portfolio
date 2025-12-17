@@ -77,7 +77,6 @@ const handleSubmit = async (e: React.FormEvent) => {
         Got a question, want to work together, or just want to say hi? I’d love to hear from you!
       </p>
 
-    {/* GitHub & LinkedIn sous le paragraphe */}
     <p className="text-center mb-10 italic">
     You can also check my{" "}
     <a

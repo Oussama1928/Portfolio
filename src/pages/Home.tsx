@@ -1,5 +1,5 @@
 import FloatingLines from "@/components/background/FloatingLines";
-import RotatingText from "@/components/ui/RotatingText"; // Assure-toi que le path correspond
+import RotatingText from "@/components/ui/RotatingText"; 
 
 export default function Home() {
 
@@ -22,7 +22,6 @@ export default function Home() {
 
       {/* CONTENT */}
       <div className="relative z-10 px-10 pt-32 text-white flex items-start gap-55">
-        {/* Texte */}
         <div className="max-w-xl flex flex-col gap-4">
           <h1 className="text-6xl md:text-7xl font-bold font-playfair">
             Hi, I’m Oussama
@@ -32,7 +31,6 @@ export default function Home() {
           </h2>
         </div>
 
-        {/* Photo avec hover */}
         <div className="mt-10 w-96 h-96 md:w-[28rem] md:h-[28rem] relative group">
           <img
             src="/images/MyPhoto.jpg"
@@ -59,12 +57,10 @@ export default function Home() {
 
       {/* Rotating adjectives */}
     <div className="absolute bottom-40 left-4 md:left-8 lg:left-12 flex flex-wrap items-center">
-    {/* Texte statique avant */}
     <span className="text-2xl md:text-3xl lg:text-4xl font-sans font-semibold text-white mr-2">
         I Design and Build
     </span>
 
-    {/* Adjectif dynamique */}
     <RotatingText
         texts={[
         "Scalable",
@@ -90,7 +86,6 @@ export default function Home() {
         auto
     />
 
-    {/* Texte statique après */}
     <span className="text-2xl md:text-3xl lg:text-4xl font-sans font-semibold text-white ml-2">
         Systems
     </span>
