@@ -26,7 +26,7 @@ app.add_middleware(
 
 class ContactForm(BaseModel):
     name: str
-    email: EmailStr
+    email: str
     message: str
 
 @app.get("/")
