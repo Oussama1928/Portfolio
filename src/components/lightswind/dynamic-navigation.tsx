@@ -30,7 +30,6 @@ export const DynamicNavigation = ({
   showLabelsOnMobile = false,
   onLinkClick,
   activeLink,
-  enableRipple = true,
 }: DynamicNavigationProps) => {
   const navRef = useRef<HTMLElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -58,7 +57,7 @@ export const DynamicNavigation = ({
     highlightRef.current.style.width = `${offsetWidth}px`;
   };
 
-  const handleLinkClick = (id: string, event: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLinkClick = (id: string) => {
     setActive(id);
     if (onLinkClick) onLinkClick(id);
   };
@@ -117,7 +116,7 @@ export const DynamicNavigation = ({
               )}
               onClick={(e) => {
                 e.preventDefault(); 
-                handleLinkClick(link.id, e);
+                handleLinkClick(link.id);
               }}
             >
               {link.icon && <span className="text-current text-xs">{link.icon}</span>}
