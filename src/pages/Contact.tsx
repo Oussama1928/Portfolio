@@ -77,6 +77,29 @@ const handleSubmit = async (e: React.FormEvent) => {
         Got a question, want to work together, or just want to say hi? I’d love to hear from you!
       </p>
 
+    {/* GitHub & LinkedIn sous le paragraphe */}
+    <p className="text-center mb-10 italic">
+    You can also check my{" "}
+    <a
+        href="https://github.com/Oussama1928"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-cyan-500 font-bold underline"
+    >
+        GitHub
+    </a>{" "}
+    and{" "}
+    <a
+        href="https://www.linkedin.com/in/oussama-ben-slima/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-cyan-500 font-bold underline"
+    >
+        LinkedIn
+    </a>{" "}
+    for more details.
+    </p>
+
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-xl bg-gray-50 p-8 rounded-xl border border-gray-200 shadow-lg"
