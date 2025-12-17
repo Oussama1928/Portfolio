@@ -25,7 +25,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     setErrorMessage(null);
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s max
+    const timeoutId = setTimeout(() => controller.abort(), 20000); // 8s max
 
     try {
         const res = await fetch(`${API_URL}/contact`, {
