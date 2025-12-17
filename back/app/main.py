@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 import smtplib
 from email.message import EmailMessage
+import socket
 
 load_dotenv()
 
@@ -45,7 +46,15 @@ async def send_contact_message(form: ContactForm):
             f"Name: {form.name}\nEmail: {form.email}\n\n{form.message}"
         )
 
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=10) as server:
+        host = "smtp.gmail.com"
+        port = 465
+        addr_info = socket.getaddrinfo(host, port, socket.AF_INET, socket.SOCK_STREAM)
+        ipv4_address = addr_info[0][4][0]
+
+        with smtplib.SMTP_SSL(ipv4_address, port, timeout=15) as server:
+            # Important : spécifier le hostname pour le certificat SSL
+            server.connect(ipv4_address, port)
+            server.helo(host) 
             server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
             server.send_message(msg)
 
