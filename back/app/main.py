@@ -45,8 +45,7 @@ async def send_contact_message(form: ContactForm):
             f"Name: {form.name}\nEmail: {form.email}\n\n{form.message}"
         )
 
-        with smtplib.SMTP("smtp.gmail.com", 587, timeout=10) as server:
-            server.starttls()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=10) as server:
             server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
             server.send_message(msg)
 
@@ -58,7 +57,7 @@ async def send_contact_message(form: ContactForm):
     except smtplib.SMTPAuthenticationError:
         raise HTTPException(
             status_code=500,
-            detail="Email authentication failed"
+            detail="Email authentication failed. Check your App Password."
         )
 
     except Exception as e:
