@@ -14,6 +14,7 @@ export default function Header() {
     journey: "/journey",
     projects: "/projects",
     skills: "/skills",
+    recommendations: "/recommendations",
     about: "/about",
   };
 
@@ -40,6 +41,7 @@ export default function Header() {
                 { id: "journey", label: "Journey", href: "/journey" },
                 { id: "projects", label: "Projects", href: "/projects" },
                 { id: "skills", label: "Skills", href: "/skills" },
+                { id: "recommendations", label: "Recommendations", href: "/recommendations" },
                 { id: "about", label: "About Me", href: "/about" },
               ]}
               activeLink={activeLink}
@@ -68,16 +70,6 @@ export default function Header() {
               Contact
             </GradientButton>
 
-            <GradientButton
-              size="md"
-              glowEffect={false}
-              gradientColors={["#d33c87ff", "#d33c87ff"]}
-              variant ="ghost"
-              className="bg-white text-black hover:bg-white/90"
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </GradientButton>
           </div>
 
         </div>

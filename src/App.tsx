@@ -6,6 +6,7 @@ import Skills from "@/pages/Skills";
 import Projects from "@/pages/Projects";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import Recommendations from "@/pages/Recommendations";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/skills" element={<Skills />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/recommendations" element={<Recommendations />} />
         <Route path="/login" element={<div>Login</div>} />
       </Routes>
     </>

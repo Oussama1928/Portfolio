@@ -47,8 +47,8 @@ export default function Home() {
 
             <p className="mt-2 text-center text-base italic font-playfair text-white">
               <a
-                href="/cv/CV Oussama BEN SLIMA - Fullstack Engineer.pdf"
-                download="CV Oussama BEN SLIMA - Fullstack Engineer.pdf"
+                href="/pdf/CV Oussama BEN SLIMA - Software Engineer.pdf"
+                download="CV Oussama BEN SLIMA - Software Engineer.pdf"
                 className="underline transition cursor-pointer"
               >
                 Download my CV

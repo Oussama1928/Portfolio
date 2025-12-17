@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 public/images/
-public/cv/
+public/pdf/
 back/.env
 back/venv/
 back/__pycache__/
