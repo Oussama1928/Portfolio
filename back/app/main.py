@@ -1,19 +1,17 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
-from dotenv import load_dotenv
 import os
-import smtplib
-from email.message import EmailMessage
-import socket
+import requests
+from dotenv import load_dotenv
 
 load_dotenv()
 
-EMAIL_ADDRESS = os.getenv("EMAIL_USER")
-EMAIL_PASSWORD = os.getenv("EMAIL_PASS")
-MAIL_TO = os.getenv("TO_EMAIL")
+MAILGUN_DOMAIN = os.getenv("MAILGUN_DOMAIN")
+MAILGUN_API_KEY = os.getenv("MAILGUN_API_KEY")
+TO_EMAIL = os.getenv("TO_EMAIL")
 
-if not all([EMAIL_ADDRESS, EMAIL_PASSWORD, MAIL_TO]):
+if not all([MAILGUN_DOMAIN, MAILGUN_API_KEY, TO_EMAIL]):
     raise RuntimeError("Missing environment variables")
 
 app = FastAPI()
@@ -38,39 +36,21 @@ def root():
 @app.post("/contact")
 async def send_contact_message(form: ContactForm):
     try:
-        msg = EmailMessage()
-        msg["Subject"] = f"[Portfolio] Message from {form.name}"
-        msg["From"] = EMAIL_ADDRESS
-        msg["To"] = MAIL_TO
-        msg.set_content(
-            f"Name: {form.name}\nEmail: {form.email}\n\n{form.message}"
+        response = requests.post(
+            f"https://api.mailgun.net/v3/{MAILGUN_DOMAIN}/messages",
+            auth=("api", MAILGUN_API_KEY),
+            data={
+                "from": f"{form.name} <contact@{MAILGUN_DOMAIN}>",
+                "to": [TO_EMAIL],
+                "subject": f"[Portfolio] Message from {form.name}",
+                "text": f"Name: {form.name}\nEmail: {form.email}\n\n{form.message}",
+            }
         )
 
-        host = "smtp.gmail.com"
-        port = 465
-        addr_info = socket.getaddrinfo(host, port, socket.AF_INET, socket.SOCK_STREAM)
-        ipv4_address = addr_info[0][4][0]
+        if response.status_code != 200:
+            raise HTTPException(status_code=500, detail=response.text)
 
-        with smtplib.SMTP_SSL(ipv4_address, port, timeout=15) as server:
-            # Important : spécifier le hostname pour le certificat SSL
-            server.connect(ipv4_address, port)
-            server.helo(host) 
-            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-            server.send_message(msg)
-
-        return {
-            "success": True,
-            "message": "Message sent successfully"
-        }
-
-    except smtplib.SMTPAuthenticationError:
-        raise HTTPException(
-            status_code=500,
-            detail="Email authentication failed. Check your App Password."
-        )
+        return {"success": True, "message": "Message sent successfully"}
 
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=str(e)
-        )
+        raise HTTPException(status_code=500, detail=str(e))
